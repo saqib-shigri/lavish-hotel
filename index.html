@@ -36,7 +36,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 0;
+            z-index: -1;
             pointer-events: none;
             opacity: 0.3;
         }
@@ -44,102 +44,85 @@
         .content {
             position: relative;
             z-index: 2;
-            background: rgba(248, 246, 242, 0.94);
         }
 
+        /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes bounceIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.3);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
+            0%,100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         @keyframes glowPulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(198, 164, 63, 0.4);
-            }
-
-            70% {
-                box-shadow: 0 0 0 15px rgba(198, 164, 63, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(198, 164, 63, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(198, 164, 63, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(198, 164, 63, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(198, 164, 63, 0); }
         }
 
         @keyframes marqueeScroll {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .float-animation {
             animation: float 4s ease-in-out infinite;
         }
 
+        /* ========== NAVBAR - HIDE/SHOW ON SCROLL ========== */
         .navbar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            background: transparent;
+            backdrop-filter: blur(3px);
+            border-bottom: none;
             padding: 0.8rem 2rem;
-            transition: all 0.4s;
+            transition: transform 0.9s ease-in-out;
+            transform: translateY(0);
+        }
+
+        .navbar.hide {
+            transform: translateY(-100%);
         }
 
         .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             padding: 0.5rem 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar.scrolled .nav-links a {
+            color: #2c2c2c;
+        }
+
+        .navbar.scrolled .logo-text {
+            color: #2c2c2c;
+        }
+
+        .navbar.scrolled .logo-img {
+            filter: none;
+        }
+
+        .navbar.scrolled .mobile-menu {
+            color: #2c2c2c;
         }
 
         .nav-container {
@@ -166,13 +149,14 @@
             justify-content: center;
             object-fit: contain;
             background: transparent;
+            filter: none;
         }
         
         .logo-text {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.6rem;
             font-weight: 700;
-            color: #046b54;
+            color: #fffdfd;
         }
 
         .logo-text span {
@@ -186,7 +170,7 @@
         }
 
         .nav-links a {
-            color: #2c2c2c;
+            color: #fffdfd;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.85rem;
@@ -203,7 +187,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #c6a43f;
+            background: #e4ab02;
             transition: width 0.3s;
         }
 
@@ -214,32 +198,14 @@
 
         .nav-links a:hover,
         .nav-links a.active {
-            color: #c6a43f;
+            color: #e4ab02;
         }
 
         .mobile-menu {
             display: none;
             font-size: 1.5rem;
             cursor: pointer;
-        }
-
-        @media (max-width: 800px) {
-            .nav-links {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                align-items: center;
-                padding: 1.5rem 0;
-                gap: 1rem;
-            }
-
-            .nav-links.show {
-                display: flex;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
+            color: #ebbf10;
         }
 
         .container {
@@ -248,17 +214,19 @@
             padding: 1.5rem 2rem;
         }
 
+        /* Hero Section */
         .hero {
-            min-height: 85vh;
+            min-height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             flex-direction: column;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url('/image/main 1.png');
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.3)), url('image/main 1.png');
             background-size: cover;
-            background-position: center;
-            border-radius: 0 0 50px 50px;
+            background-position: center center;
+            background-repeat: no-repeat;
             margin-bottom: 2rem;
         }
 
@@ -274,34 +242,26 @@
             font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.9);
             margin-top: 0.5rem;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+            animation: fadeInUp 1.0s ease-out 0.1s both;
         }
 
         .hero .btn-hero {
             margin-top: 2rem;
             padding: 14px 35px;
-            background: #c6a43f;
+            background: #e4ab02;
             color: #1a1a1a;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: 0.3s;
             animation: bounceIn 1s ease-out 0.5s both;
+            box-shadow: #e0e0e0 0px 5px 15px;
         }
 
         .hero .btn-hero:hover {
             transform: scale(1.05);
-            background: #dab854;
-        }
-
-        @media (max-width: 760px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-
-            .hero {
-                min-height: 60vh;
-            }
+            background: #f5c542;
+            box-shadow: #151414 0px 5px 15px;
         }
 
         .section-title {
@@ -309,53 +269,86 @@
             font-size: 2.5rem;
             font-weight: 600;
             margin: 3rem 0 2rem 0;
-            border-left: 4px solid #c6a43f;
+            border-left: 4px solid #e4ab02;
             padding-left: 1.2rem;
+            color: #1a1a1a;
         }
 
+        /* ========== CHECK AVAILABILITY TOP SECTION WITH LABELS ========== */
         .check-availability-top {
             background: white;
             border-radius: 60px;
-            padding: 1rem 1.5rem;
-            margin: 1rem 0 2rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
         }
 
-        .check-availability-top .fields {
+        .check-availability-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            flex: 2;
+            align-items: flex-end;
+            gap: 1.5rem;
         }
 
-        .check-availability-top input,
-        .check-availability-top select {
-            padding: 12px 18px;
-            border-radius: 40px;
+        .check-field {
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .check-field label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #888;
+            display: block;
+        }
+
+        .check-field input,
+        .check-field select {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
             border: 1px solid #e0e0e0;
             background: #fafafa;
-            flex: 1;
-            min-width: 150px;
+            transition: all 0.3s;
+        }
+
+        .check-field input:focus,
+        .check-field select:focus {
+            border-color: #e4ab02;
+            outline: none;
+            transform: scale(1.02);
         }
 
         .check-availability-top button {
-            background: #c6a43f;
+            background: #e4ab02;
             border: none;
-            padding: 12px 28px;
+            padding: 14px 28px;
             border-radius: 40px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
+            min-width: 180px;
         }
 
         .check-availability-top button:hover {
             background: #1a1a1a;
             color: white;
+        }
+
+        @media (max-width: 768px) {
+            .check-availability-grid {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .check-field {
+                min-width: auto;
+            }
+            .check-availability-top button {
+                width: 100%;
+            }
         }
 
         .booking-widget {
@@ -404,7 +397,7 @@
 
         .booking-field input:focus,
         .booking-field select:focus {
-            border-color: #c6a43f;
+            border-color: #e4ab02;
             outline: none;
             transform: scale(1.02);
         }
@@ -422,7 +415,7 @@
         }
 
         .book-main-btn:hover {
-            background: #c6a43f;
+            background: #e4ab02;
             color: #1a1a1a;
             transform: scale(1.02);
         }
@@ -431,7 +424,6 @@
             .booking-grid {
                 grid-template-columns: 1fr;
             }
-
             .book-main-btn {
                 grid-column: span 1;
             }
@@ -447,7 +439,7 @@
 
         .reviews-section .section-title {
             color: white;
-            border-left-color: #c6a43f;
+            border-left-color: #e4ab02;
             margin-top: 0;
         }
 
@@ -479,16 +471,16 @@
             white-space: normal;
             vertical-align: middle;
             transition: all 0.3s;
-            border: 1px solid rgba(198, 164, 63, 0.3);
+            border: 1px solid rgba(228, 171, 2, 0.3);
         }
 
         .review-card-marquee:hover {
             transform: scale(1.02);
-            border-color: #c6a43f;
+            border-color: #e4ab02;
         }
 
         .review-stars {
-            color: #f5b042;
+            color: #e4ab02;
             margin-bottom: 0.5rem;
         }
 
@@ -502,15 +494,8 @@
         }
 
         .review-author {
-            color: #c6a43f;
+            color: #e4ab02;
             font-weight: 600;
-        }
-
-        @media (max-width: 760px) {
-            .review-card-marquee {
-                min-width: 260px;
-                padding: 1rem;
-            }
         }
 
         .hotel-gallery {
@@ -560,18 +545,6 @@
             padding: 1rem;
             text-align: center;
             font-weight: 500;
-        }
-
-        @media (max-width: 900px) {
-            .hotel-gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 550px) {
-            .hotel-gallery {
-                grid-template-columns: 1fr;
-            }
         }
 
         .rooms-grid {
@@ -650,25 +623,13 @@
 
         .facility-item i {
             font-size: 2.5rem;
-            color: #c6a43f;
+            color: #e4ab02;
             margin-bottom: 1rem;
             transition: all 0.4s;
         }
 
         .facility-item:hover i {
             transform: rotateY(180deg);
-        }
-
-        @media (max-width: 900px) {
-            .facilities-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 550px) {
-            .facilities-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .nearby-section {
@@ -732,17 +693,13 @@
 
         .distance-badge {
             display: inline-block;
-            background: #c6a43f20;
-            color: #c6a43f;
+            background: #e4ab0220;
+            color: #e4ab02;
             padding: 4px 12px;
             border-radius: 50px;
             font-size: 0.7rem;
             font-weight: 600;
             margin-top: 0.5rem;
-        }
-
-        .distance-badge i {
-            margin-right: 5px;
         }
 
         .contact-main {
@@ -802,7 +759,7 @@
         }
 
         .contact-detail-item:hover i {
-            background: #c6a43f;
+            background: #e4ab02;
             color: white;
             transform: rotate(360deg);
         }
@@ -820,7 +777,7 @@
 
         .contact-form-card input:focus,
         .contact-form-card textarea:focus {
-            border-color: #c6a43f;
+            border-color: #e4ab02;
             transform: scale(1.01);
         }
 
@@ -837,7 +794,7 @@
         }
 
         .submit-contact:hover {
-            background: #c6a43f;
+            background: #e4ab02;
             transform: scale(1.02);
         }
 
@@ -900,7 +857,6 @@
             transform: scale(1.15);
         }
 
-        /* Footer Styles */
         footer {
             background: #1a1a1a;
             color: #aaa;
@@ -1016,7 +972,6 @@
             font-size: 0.75rem;
         }
 
-        /* Popup Modal Styles */
         .modal-popup {
             display: none;
             position: fixed;
@@ -1058,7 +1013,7 @@
         }
 
         .modal-content::-webkit-scrollbar-thumb {
-            background: #c6a43f;
+            background: #e4ab02;
             border-radius: 10px;
         }
 
@@ -1073,72 +1028,75 @@
         }
 
         .modal-close:hover {
-            color: #c6a43f;
+            color: #e4ab02;
             transform: rotate(90deg);
         }
 
         .modal-content h2 {
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.8rem;
-            color: #c6a43f;
+            color: #e4ab02;
             margin-bottom: 1.5rem;
             padding-right: 30px;
         }
 
-        .modal-content h3 {
-            font-size: 1.2rem;
-            color: #046b54;
-            margin: 1rem 0 0.5rem;
-        }
-
-        .modal-content p {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 0.8rem;
-        }
-
-        .modal-content ul {
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .modal-content li {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #555;
-        }
-
         @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                padding: 1.5rem 0;
+                gap: 1rem;
             }
-            to {
-                opacity: 1;
-                transform: scale(1);
+            .nav-links.show {
+                display: flex;
+            }
+            .mobile-menu {
+                display: block;
+            }
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero {
+                min-height: 100vh;
+                background-attachment: scroll;
             }
         }
 
-        @media (max-width: 760px) {
-            .footer-inner {
-                flex-direction: column;
-                text-align: center;
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
             }
-            .footer-column a:hover {
-                transform: translateX(0);
+            .hero p {
+                font-size: 0.8rem;
             }
-            .social-links {
-                justify-content: center;
+            .hero .btn-hero {
+                padding: 10px 20px;
+                font-size: 0.8rem;
             }
-            .footer-logo-area {
-                justify-content: center;
+            .section-title {
+                font-size: 1.6rem;
             }
-            .modal-content {
-                padding: 1.5rem;
+            .hotel-gallery,
+            .facilities-grid {
+                grid-template-columns: 1fr;
             }
-            .modal-content h2 {
-                font-size: 1.4rem;
+        }
+
+        @media (max-width: 900px) {
+            .hotel-gallery,
+            .facilities-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -1150,7 +1108,7 @@
         <nav class="navbar" id="navbar">
             <div class="nav-container">
                 <div class="logo-area">
-                    <img src="/image/2.png" 
+                    <img src="image/2.png" 
                          class="logo-img float-animation" 
                          alt="Hotel Logo"
                          style="background: transparent;">
@@ -1165,27 +1123,37 @@
             </div>
         </nav>
 
-        <div class="container">
-            <div class="hero" id="home">
-                <h1> <span>Welcome to</span> <br>The Lavish Hotel</h1>
-                <p>Where the Himalayas meet luxury</p><br>
-                <p>📍 Airport Road, Hoto, Skardu</p>
-                <a href="#rooms" class="btn-hero"><i class="fas fa-arrow-down"></i> Explore Rooms</a>
-            </div>
+        <div class="hero" id="home">
+            <h1><span>Welcome to</span><br>The Lavish Hotel</h1>
+            <p>Where the Himalayas meet luxury</p>
+            <p>📍 Airport Road, Hoto, Skardu</p>
+            <a href="#rooms" class="btn-hero"><i class="fas fa-arrow-down"></i> Explore Rooms</a>
+        </div>
 
+        <div class="container">
+            <!-- ========== CHECK AVAILABILITY SECTION WITH LABELS ========== -->
             <div class="check-availability-top">
-                <div class="fields">
-                    <input type="date" id="availabilityCheckin" placeholder="Check-in">
-                    <input type="date" id="availabilityCheckout" placeholder="Check-out">
-                    <select id="availabilityGuests">
-                        <option>1 Guest</option>
-                        <option>2 Guests</option>
-                        <option>3 Guests</option>
-                        <option>4 Guests</option>
-                        <option>5+ Guests</option>
-                    </select>
+                <div class="check-availability-grid">
+                    <div class="check-field">
+                        <label><i class="fas fa-calendar-alt"></i> CHECK IN</label>
+                        <input type="date" id="availabilityCheckin">
+                    </div>
+                    <div class="check-field">
+                        <label><i class="fas fa-calendar-alt"></i> CHECK OUT</label>
+                        <input type="date" id="availabilityCheckout">
+                    </div>
+                    <div class="check-field">
+                        <label><i class="fas fa-users"></i> GUESTS</label>
+                        <select id="availabilityGuests">
+                            <option>1 Guest</option>
+                            <option>2 Guests</option>
+                            <option>3 Guests</option>
+                            <option>4 Guests</option>
+                            <option>5+ Guests</option>
+                        </select>
+                    </div>
+                    <button id="checkAvailabilityBtn"><i class="fab fa-whatsapp"></i> Check Availability</button>
                 </div>
-                <button id="checkAvailabilityBtn"><i class="fab fa-whatsapp"></i> Check Availability</button>
             </div>
 
             <div class="booking-widget">
@@ -1206,20 +1174,15 @@
                             <option>Quad Family Suite</option>
                             <option>Group Suite</option>
                         </select></div>
-                    <button class="book-main-btn" id="quickBookBtn"><i class="fab fa-whatsapp"></i> BOOK NOW ON
-                        WHATSAPP</button>
+                    <button class="book-main-btn" id="quickBookBtn"><i class="fab fa-whatsapp"></i> BOOK NOW ON WHATSAPP</button>
                 </div>
             </div>
 
             <section id="about">
                 <h2 class="section-title">About Us</h2>
                 <div class="about-section">
-                    <p>Nestled in the heart of <strong>Skardu Valley, The Lavish Hotel </strong>blends modern luxury with authentic Balti
-                    hospitality. Overlooking the mighty Karakoram Range, we offer world-class amenities, curated
-                        experiences, and unforgettable mountain views.</p>
-                    <p style="margin-top: 1rem;">Since our founding, we have been committed to providing exceptional
-                        service, luxurious accommodations, and a gateway to the breathtaking landscapes of
-                        Gilgit-Baltistan.</p>
+                    <p>Nestled in the heart of <strong>Skardu Valley, The Lavish Hotel</strong> blends modern luxury with authentic Balti hospitality. Overlooking the mighty Karakoram Range, we offer world-class amenities, curated experiences, and unforgettable mountain views.</p>
+                    <p style="margin-top: 1rem;">Since our founding, we have been committed to providing exceptional service, luxurious accommodations, and a gateway to the breathtaking landscapes of Gilgit-Baltistan.</p>
                 </div>
             </section>
 
@@ -1246,25 +1209,18 @@
                 <div class="marquee-container">
                     <div class="marquee-content" id="reviewsMarquee">
                         <div class="review-card-marquee">
-                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <div class="review-text">"Amazing experience! The mountain view was breathtaking. Staff was
-                                incredibly helpful."</div>
+                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            <div class="review-text">"Amazing experience! The mountain view was breathtaking. Staff was incredibly helpful."</div>
                             <div class="review-author">— Sarah Khan</div>
                         </div>
                         <div class="review-card-marquee">
-                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star-half-alt"></i></div>
-                            <div class="review-text">"Best hotel in Skardu! Clean rooms, delicious food, and perfect
-                                location."</div>
+                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                            <div class="review-text">"Best hotel in Skardu! Clean rooms, delicious food, and perfect location."</div>
                             <div class="review-author">— Ahmed Raza</div>
                         </div>
                         <div class="review-card-marquee">
-                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                    class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <div class="review-text">"Unforgettable stay! The hospitality was top-notch. Will definitely
-                                come back."</div>
+                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                            <div class="review-text">"Unforgettable stay! The hospitality was top-notch. Will definitely come back."</div>
                             <div class="review-author">— Fatima Ali</div>
                         </div>
                     </div>
@@ -1290,32 +1246,24 @@
                                 <p><strong>Check-out</strong><br>12:00 PM | 24/7 Front Desk</p>
                             </div>
                             <div class="contact-detail-item"><i class="fab fa-whatsapp"></i>
-                                <p><strong>WhatsApp</strong><br><a href="https://wa.me/923455482481"
-                                        style="color:#c6a43f">+92 345 5482481</a></p>
+                                <p><strong>WhatsApp</strong><br><a href="https://wa.me/923455482481" style="color:#e4ab02">+92 345 5482481</a></p>
                             </div>
                         </div>
                         <div class="contact-form-card">
                             <h3><i class="fas fa-paper-plane"></i> Send us a Message</h3>
-                            <form id="emailContactForm"><input type="text" id="contactName" placeholder="Your Name"
-                                    required><input type="email" id="contactEmail" placeholder="Email" required><input
-                                    type="text" id="contactSubject" placeholder="Subject"><textarea id="contactMessage"
-                                    placeholder="Your Message..." required></textarea><button type="submit"
-                                    class="submit-contact"><i class="fab fa-whatsapp"></i> Send Message</button></form>
+                            <form id="emailContactForm"><input type="text" id="contactName" placeholder="Your Name" required><input type="email" id="contactEmail" placeholder="Email" required><input type="text" id="contactSubject" placeholder="Subject"><textarea id="contactMessage" placeholder="Your Message..." required></textarea><button type="submit" class="submit-contact"><i class="fab fa-whatsapp"></i> Send Message</button></form>
                         </div>
                     </div>
-                    <div class="map-wrapper"><iframe
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3253.5340082700877!2d75.5048797!3d35.3672093!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38e469000332b719%3A0x66391d2bc9ee6221!2sThe%20Lavish%20Hotel!5e0!3m2!1sen!2s!4v1778754200121!5m2!1sen!2s"
-                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                    <div class="map-wrapper"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3253.5340082700877!2d75.5048797!3d35.3672093!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38e469000332b719%3A0x66391d2bc9ee6221!2sThe%20Lavish%20Hotel!5e0!3m2!1sen!2s!4v1778754200121!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
                 </div>
             </section>
         </div>
 
-        <!-- FOOTER WITH ICONS (NO EMOJIS) -->
         <footer>
             <div class="footer-inner">
                 <div class="footer-column">
                     <div class="footer-logo-area">
-                        <img src="/image/2.png" class="footer-logo-img" alt="Hotel Logo" style="background: transparent;">
+                        <img src="image/2.png" class="footer-logo-img" alt="Hotel Logo" style="background: transparent;">
                         <div class="footer-logo-text">LAVISH <span>HOTEL</span></div>
                     </div>
                     <p>Luxury redefined in the heart of Skardu Valley. Where the Himalayas meet world-class hospitality.</p>
@@ -1346,7 +1294,7 @@
                 </div>
                 <div class="footer-column">
                     <h4><i class="fas fa-map-marker-alt"></i> Contact Info</h4>
-                    <p><i class="fas fa-location-dot"></i> Airport Road, Hoto,<br> &nbsp;&nbsp;&nbsp;Skardu, Gilgit-Baltistan 16200</p>
+                    <p><i class="fas fa-location-dot"></i> Airport Road, Hoto,<br> Skardu, Gilgit-Baltistan 16200</p>
                     <p><i class="fas fa-phone"></i> +92 345 5482481</p>
                     <p><i class="fas fa-envelope"></i> stay@thelavishhotel.pk</p>
                     <p><i class="fas fa-clock"></i> 24/7 Front Desk</p>
@@ -1358,24 +1306,19 @@
         </footer>
     </div>
 
-    <!-- POPUP MODAL -->
     <div id="popupModal" class="modal-popup">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
-            <div id="popupContent">
-                <!-- Content will be loaded dynamically -->
-            </div>
+            <div id="popupContent"></div>
         </div>
     </div>
 
-    <a href="https://wa.me/923455482481" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp fa-2x"
-            style="color:white"></i></a>
+    <a href="https://wa.me/923455482481" target="_blank" class="whatsapp-float"><i class="fab fa-whatsapp fa-2x" style="color:white"></i></a>
 
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js';
 
-        // 3D Scene
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
         scene.background = null;
@@ -1391,7 +1334,7 @@
         light.position.set(2, 3, 4);
         scene.add(light);
         const group = new THREE.Group();
-        const ringMat = new THREE.MeshStandardMaterial({ color: 0xc6a43f, emissive: 0x221100, transparent: true, opacity: 0.3 });
+        const ringMat = new THREE.MeshStandardMaterial({ color: 0xe4ab02, emissive: 0x221100, transparent: true, opacity: 0.3 });
         const ring1 = new THREE.Mesh(new THREE.TorusGeometry(1.2, 0.05, 64, 200), ringMat);
         ring1.rotation.x = Math.PI / 2;
         group.add(ring1);
@@ -1405,12 +1348,10 @@
 
         const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.15 });
 
-        // Hotel Gallery
-        const hotelImages = ["/image/lounge.jpg", "/image/traditional food.jpg", "/image/main.jpg", "/image/room.jpg", "/image/room 2.jpg", "/image/view 2.jpg"];
+        const hotelImages = ["image/lounge.jpg", "image/traditional food.jpg", "image/main.jpg", "image/room.jpg", "image/room 2.jpg", "image/view 2.jpg"];
         const galleryContainer = document.getElementById('hotelGallery');
         hotelImages.forEach((img, idx) => { const card = document.createElement('div'); card.className = 'gallery-card'; card.style.transitionDelay = `${idx * 0.1}s`; card.innerHTML = `<div class="gallery-img"><img src="${img}" loading="lazy"></div><div class="info">Lavish Hotel View</div>`; galleryContainer.appendChild(card); observer.observe(card); });
 
-        // Rooms Data
         const rooms = [
             { id: 1, name: "Deluxe Double", beds: 2, price: 8000, disc: 15, fac: ["Breakfast", "WiFi", "Mountain View", "AC"], img: "image/room.jpg" },
             { id: 2, name: "Triple Comfort", beds: 3, price: 11000, disc: 10, fac: ["Breakfast", "WiFi", "TV", "Tea Maker"], img: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600" },
@@ -1426,25 +1367,21 @@
             rooms.forEach((room, idx) => {
                 if (!selectedDuration[room.id]) selectedDuration[room.id] = 'night';
                 const card = document.createElement('div'); card.className = 'room-card'; card.style.transitionDelay = `${idx * 0.1}s`;
-                card.innerHTML = `<div class="room-img"><img src="${room.img}" loading="lazy"></div><div class="room-info"><h3 style="font-size:1.5rem; font-family:'Cormorant Garamond'">${room.name}</h3><div><i class="fas fa-bed"></i> ${room.beds} Beds | 🔥 ${room.disc}% off</div><div style="margin:10px 0">${room.fac.map(f => `<span style="background:#f0f0f0; padding:4px 12px; border-radius:40px; font-size:0.7rem; margin:2px; display:inline-block">${f}</span>`).join('')}</div><div style="font-size:1.8rem; font-weight:600; margin:10px 0">PKR ${Math.round(getPrice(room, selectedDuration[room.id]))}</div><div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px"><button data-id="${room.id}" data-dur="night" class="optBtn ${selectedDuration[room.id] === 'night' ? 'opt-active' : ''}">Night</button><button data-id="${room.id}" data-dur="2days" class="optBtn ${selectedDuration[room.id] === '2days' ? 'opt-active' : ''}">2 Days</button><button data-id="${room.id}" data-dur="3days" class="optBtn ${selectedDuration[room.id] === '3days' ? 'opt-active' : ''}">3 Days</button><button data-id="${room.id}" data-dur="month" class="optBtn ${selectedDuration[room.id] === 'month' ? 'opt-active' : ''}">Month</button></div><button class="bookNowDirect" data-room="${room.name}" data-price="${Math.round(getPrice(room, selectedDuration[room.id]))}" data-dur-text="${selectedDuration[room.id] === 'night' ? '1 Night' : selectedDuration[room.id] === '2days' ? '2 Days' : selectedDuration[room.id] === '3days' ? '3 Days' : '1 Month'}" style="width:100%; background:#c6a43f; color:#1a1a1a; border:none; padding:12px; border-radius:40px; font-weight:bold; cursor:pointer"><i class="fab fa-whatsapp"></i> Book Now</button></div>`;
+                card.innerHTML = `<div class="room-img"><img src="${room.img}" loading="lazy"></div><div class="room-info"><h3 style="font-size:1.5rem; font-family:'Cormorant Garamond'">${room.name}</h3><div><i class="fas fa-bed"></i> ${room.beds} Beds | 🔥 ${room.disc}% off</div><div style="margin:10px 0">${room.fac.map(f => `<span style="background:#f0f0f0; padding:4px 12px; border-radius:40px; font-size:0.7rem; margin:2px; display:inline-block">${f}</span>`).join('')}</div><div style="font-size:1.8rem; font-weight:600; margin:10px 0">PKR ${Math.round(getPrice(room, selectedDuration[room.id]))}</div><div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px"><button data-id="${room.id}" data-dur="night" class="optBtn ${selectedDuration[room.id] === 'night' ? 'opt-active' : ''}">Night</button><button data-id="${room.id}" data-dur="2days" class="optBtn ${selectedDuration[room.id] === '2days' ? 'opt-active' : ''}">2 Days</button><button data-id="${room.id}" data-dur="3days" class="optBtn ${selectedDuration[room.id] === '3days' ? 'opt-active' : ''}">3 Days</button><button data-id="${room.id}" data-dur="month" class="optBtn ${selectedDuration[room.id] === 'month' ? 'opt-active' : ''}">Month</button></div><button class="bookNowDirect" data-room="${room.name}" data-price="${Math.round(getPrice(room, selectedDuration[room.id]))}" data-dur-text="${selectedDuration[room.id] === 'night' ? '1 Night' : selectedDuration[room.id] === '2days' ? '2 Days' : selectedDuration[room.id] === '3days' ? '3 Days' : '1 Month'}" style="width:100%; background:#e4ab02; color:#1a1a1a; border:none; padding:12px; border-radius:40px; font-weight:bold; cursor:pointer"><i class="fab fa-whatsapp"></i> Book Now</button></div>`;
                 grid.appendChild(card); observer.observe(card);
             });
             document.querySelectorAll('.optBtn').forEach(btn => btn.addEventListener('click', (e) => { const rid = parseInt(btn.dataset.id); selectedDuration[rid] = btn.dataset.dur; renderRooms(); }));
-            document.querySelectorAll('.bookNowDirect').forEach(btn => btn.addEventListener('click', (e) => {
-                window.open(`https://wa.me/923455482481?text=🏨 *BOOKING REQUEST*%0A🛏️ Room: ${btn.dataset.room}%0A📆 Duration: ${btn.dataset.durText}%0A💰 Total: PKR ${btn.dataset.price}%0A📍 The Lavish Hotel, Skardu%0A%0APlease confirm availability.`, '_blank');
-            }));
+            document.querySelectorAll('.bookNowDirect').forEach(btn => btn.addEventListener('click', (e) => { window.open(`https://wa.me/923455482481?text=🏨 *BOOKING REQUEST*%0A🛏️ Room: ${btn.dataset.room}%0A📆 Duration: ${btn.dataset.durText}%0A💰 Total: PKR ${btn.dataset.price}%0A📍 The Lavish Hotel, Skardu`, '_blank'); }));
         }
         renderRooms();
 
-        // Facilities
         const facilities = [{ icon: "fa-utensils", name: "Fine Dining" }, { icon: "fa-spa", name: "Luxury Spa" }, { icon: "fa-car", name: "Airport Transfer" }, { icon: "fa-wifi", name: "High-Speed WiFi" }, { icon: "fa-dumbbell", name: "Fitness Center" }, { icon: "fa-mug-hot", name: "24/7 Cafe" }];
         const facilitiesGrid = document.getElementById('facilitiesGrid');
         facilities.forEach((fac, idx) => { const item = document.createElement('div'); item.className = 'facility-item'; item.style.transitionDelay = `${idx * 0.08}s`; item.innerHTML = `<i class="fas ${fac.icon}"></i><h3>${fac.name}</h3><p>Premium service</p>`; facilitiesGrid.appendChild(item); observer.observe(item); });
 
-        // Attractions
         const attractions = [
-            { name: "Shangrila Resort", desc: "Heart-shaped lake, iconic resort", img: "/image/shangrila.jpg", distance: "25 km", time: "45 min" },
-            { name: "Satpara Lake", desc: "Crystal clear turquoise water", img: "/image/sadpara.jpg", distance: "8 km", time: "15 min" },
+            { name: "Shangrila Resort", desc: "Heart-shaped lake, iconic resort", img: "image/shangrila.jpg", distance: "25 km", time: "45 min" },
+            { name: "Satpara Lake", desc: "Crystal clear turquoise water", img: "image/sadpara.jpg", distance: "8 km", time: "15 min" },
             { name: "Deosai National Park", desc: "Second highest plateau", img: "image/deosai.jpg", distance: "35 km", time: "1.5 hours" },
             { name: "Manthokha Waterfall", desc: "Majestic waterfall", img: "image/manthokha.jpg", distance: "40 km", time: "1 hour" },
             { name: "Cold Desert Shigar", desc: "High-altitude desert", img: "image/cold.jpg", distance: "12 km", time: "20 min" },
@@ -1457,161 +1394,50 @@
         const attractionsGrid = document.getElementById('attractionsGrid');
         attractions.forEach((att, idx) => { const card = document.createElement('div'); card.className = 'attraction-card'; card.style.transitionDelay = `${idx * 0.05}s`; card.innerHTML = `<div class="attraction-img"><img src="${att.img}" loading="lazy"></div><div class="attraction-info"><h3><i class="fas fa-map-marker-alt"></i> ${att.name}</h3><p>${att.desc}</p><div class="distance-badge"><i class="fas fa-road"></i> ${att.distance} from hotel • ${att.time}</div></div>`; attractionsGrid.appendChild(card); observer.observe(card); });
 
-        // Buttons
-        document.getElementById('quickBookBtn').onclick = () => {
-            const ci = document.getElementById('bookCheckin').value;
-            if (!ci) { alert("Select check-in date"); return; }
-            window.open(`https://wa.me/923455482481?text=🏨 *NEW BOOKING*%0A📅 In: ${ci}%0A📅 Out: ${document.getElementById('bookCheckout').value || 'flexible'}%0A👥 Guests: ${document.getElementById('bookGuests').value}%0A🛏️ Room: ${document.getElementById('bookRoomSelect').value}`, '_blank');
-        };
-        document.getElementById('checkAvailabilityBtn').onclick = () => {
-            const ci = document.getElementById('availabilityCheckin').value;
-            if (!ci) { alert("Select check-in date"); return; }
-            window.open(`https://wa.me/923455482481?text=🔍 *AVAILABILITY*%0A📅 In: ${ci}%0A📅 Out: ${document.getElementById('availabilityCheckout').value || 'flexible'}%0A👥 Guests: ${document.getElementById('availabilityGuests').value}`, '_blank');
-        };
-        document.getElementById('emailContactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('contactName').value;
-            const email = document.getElementById('contactEmail').value;
-            const msg = document.getElementById('contactMessage').value;
-            if (!name || !email || !msg) { alert("Fill all fields"); return; }
-            window.open(`https://wa.me/923455482481?text=📧 *CONTACT*%0A👤 ${name}%0A📧 ${email}%0A💬 ${msg}`, '_blank');
-            e.target.reset();
-            alert("Message sent!");
-        });
+        document.getElementById('quickBookBtn').onclick = () => { const ci = document.getElementById('bookCheckin').value; if (!ci) { alert("Select check-in date"); return; } window.open(`https://wa.me/923455482481?text=🏨 *NEW BOOKING*%0A📅 In: ${ci}%0A📅 Out: ${document.getElementById('bookCheckout').value || 'flexible'}%0A👥 Guests: ${document.getElementById('bookGuests').value}%0A🛏️ Room: ${document.getElementById('bookRoomSelect').value}`, '_blank'); };
+        document.getElementById('checkAvailabilityBtn').onclick = () => { const ci = document.getElementById('availabilityCheckin').value; if (!ci) { alert("Select check-in date"); return; } window.open(`https://wa.me/923455482481?text=🔍 *AVAILABILITY CHECK*%0A📅 Check-in: ${ci}%0A📅 Check-out: ${document.getElementById('availabilityCheckout').value || 'flexible'}%0A👥 Guests: ${document.getElementById('availabilityGuests').value}%0A📍 The Lavish Hotel, Skardu`, '_blank'); };
+        document.getElementById('emailContactForm').addEventListener('submit', (e) => { e.preventDefault(); const name = document.getElementById('contactName').value; const email = document.getElementById('contactEmail').value; const msg = document.getElementById('contactMessage').value; if (!name || !email || !msg) { alert("Fill all fields"); return; } window.open(`https://wa.me/923455482481?text=📧 *CONTACT*%0A👤 ${name}%0A📧 ${email}%0A💬 ${msg}`, '_blank'); e.target.reset(); alert("Message sent!"); });
         document.getElementById('mobileMenu').onclick = () => document.getElementById('navLinks').classList.toggle('show');
         document.querySelectorAll('.about-section, .contact-info-card, .contact-form-card, .map-wrapper').forEach(el => observer.observe(el));
-        window.addEventListener('scroll', () => { const navbar = document.getElementById('navbar'); if (window.scrollY > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled'); });
-        const style = document.createElement('style'); style.textContent = `.opt-active{background:#c6a43f !important;color:#1a1a1a !important}.optBtn{background:#e0e0e0;border:none;padding:6px 14px;border-radius:40px;cursor:pointer;font-size:0.8rem;transition:0.3s}.optBtn:hover{transform:scale(1.05)}`; document.head.appendChild(style);
 
-        // ========== POPUP MODAL SYSTEM ==========
+        // Navbar hide/show on scroll
+        const navbar = document.getElementById('navbar');
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+        function updateNavbar() {
+            const currentScrollY = window.scrollY;
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                navbar.classList.add('hide');
+                navbar.classList.remove('scrolled');
+            } else if (currentScrollY < lastScrollY) {
+                navbar.classList.remove('hide');
+                if (currentScrollY > 50) navbar.classList.add('scrolled');
+                else navbar.classList.remove('scrolled');
+            }
+            lastScrollY = currentScrollY;
+            ticking = false;
+        }
+        window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(() => updateNavbar()); ticking = true; } });
+        updateNavbar();
+
+        const style = document.createElement('style'); style.textContent = `.opt-active{background:#e4ab02 !important;color:#1a1a1a !important}.optBtn{background:#e0e0e0;border:none;padding:6px 14px;border-radius:40px;cursor:pointer;font-size:0.8rem;transition:0.3s}.optBtn:hover{transform:scale(1.05)}`; document.head.appendChild(style);
+
         const modal = document.getElementById('popupModal');
         const modalClose = document.querySelector('.modal-close');
         const popupContent = document.getElementById('popupContent');
-
-        // Popup Content Data
         const popupData = {
-            privacy: {
-                title: "Privacy Policy",
-                content: `
-                    <h2>Privacy Policy</h2>
-                    <p>At The Lavish Hotel, we take your privacy seriously. This policy describes how we collect, use, and protect your personal information.</p>
-                    <h3>Information We Collect</h3>
-                    <p>We collect information you provide when making a reservation including: name, email address, phone number, payment information, and special requests.</p>
-                    <h3>How We Use Your Information</h3>
-                    <p>We use your information to process reservations, communicate with you about your stay, improve our services, and send promotional offers (with your consent).</p>
-                    <h3>Data Security</h3>
-                    <p>We implement appropriate security measures to protect your personal information from unauthorized access or disclosure.</p>
-                    <h3>Third-Party Sharing</h3>
-                    <p>We do not sell your personal information to third parties. We may share information with service providers who assist with booking processing.</p>
-                    <h3>Contact Us</h3>
-                    <p>For privacy-related questions, contact us at stay@thelavishhotel.pk</p>
-                `
-            },
-            terms: {
-                title: "Terms & Conditions",
-                content: `
-                    <h2>Terms & Conditions</h2>
-                    <p>By making a reservation at The Lavish Hotel, you agree to these terms and conditions.</p>
-                    <h3>Check-in / Check-out</h3>
-                    <p>Check-in time: 2:00 PM<br>Check-out time: 12:00 PM<br>Early check-in and late check-out are subject to availability and may incur additional charges.</p>
-                    <h3>Reservation Guarantee</h3>
-                    <p>A valid credit card or advance payment is required to guarantee your reservation.</p>
-                    <h3>Property Rules</h3>
-                    <ul><li>Smoking is prohibited inside rooms (designated areas available)</li><li>Pets are not allowed</li><li>Guests are responsible for any damages to the property</li><li>Please maintain quiet hours between 10:00 PM and 8:00 AM</li></ul>
-                    <h3>Liability</h3>
-                    <p>The hotel is not responsible for loss or damage to personal belongings. Please use in-room safe for valuables.</p>
-                `
-            },
-            cancellation: {
-                title: "Cancellation Policy",
-                content: `
-                    <h2>Cancellation Policy</h2>
-                    <p>Please review our cancellation policy carefully before making a reservation.</p>
-                    <h3>Standard Cancellation</h3>
-                    <ul><li>Cancellation 7+ days before check-in: 100% refund</li><li>Cancellation 3-6 days before check-in: 50% refund</li><li>Cancellation 1-2 days before check-in: 25% refund</li><li>Cancellation on check-in day or no-show: No refund</li></ul>
-                    <h3>Peak Season Policy</h3>
-                    <p>During peak season (May-September), cancellations must be made 14 days in advance for full refund.</p>
-                    <h3>How to Cancel</h3>
-                    <p>To cancel your reservation, please contact us via WhatsApp at +92 345 5482481 or email stay@thelavishhotel.pk with your booking reference number.</p>
-                `
-            },
-            faq: {
-                title: "Frequently Asked Questions",
-                content: `
-                    <h2>Frequently Asked Questions</h2>
-                    <h3>Is breakfast included?</h3>
-                    <p>Yes, complimentary breakfast is included with all room bookings.</p>
-                    <h3>Do you offer airport pickup?</h3>
-                    <p>Yes, we offer free airport pickup. Please provide your flight details 24 hours in advance.</p>
-                    <h3>Is WiFi free?</h3>
-                    <p>Yes, complimentary high-speed WiFi is available throughout the hotel.</p>
-                    <h3>Do you have parking?</h3>
-                    <p>Yes, free parking is available for all guests.</p>
-                    <h3>Are children allowed?</h3>
-                    <p>Yes, children under 12 stay free when sharing parents' room.</p>
-                    <h3>Do you have wheelchair access?</h3>
-                    <p>Yes, the hotel is wheelchair accessible with ground floor rooms available.</p>
-                    <h3>What payment methods do you accept?</h3>
-                    <p>We accept cash, credit cards (Visa/Mastercard), and bank transfers.</p>
-                `
-            },
-            careers: {
-                title: "Careers at The Lavish Hotel",
-                content: `
-                    <h2>Join Our Team</h2>
-                    <p>We're always looking for talented, passionate individuals to join the The Lavish Hotel family.</p>
-                    <h3>Current Openings</h3>
-                    <ul><li>Front Desk Receptionist</li><li>Housekeeping Staff</li><li>Restaurant Server</li><li>Chef / Cook</li><li>Hotel Manager</li><li>Maintenance Technician</li></ul>
-                    <h3>How to Apply</h3>
-                    <p>Send your resume/CV to: <strong>careers@thelavishhotel.pk</strong></p>
-                    <p>Or WhatsApp your application to: <strong>+92 345 5482481</strong></p>
-                    <h3>Why Join Us?</h3>
-                    <p>Competitive salary, accommodation, meals, medical insurance, and career growth opportunities in the beautiful Skardu Valley.</p>
-                `
-            }
+            privacy: { content: `<h2>Privacy Policy</h2><p>At The Lavish Hotel, we take your privacy seriously...</p>` },
+            terms: { content: `<h2>Terms & Conditions</h2><p>By making a reservation at The Lavish Hotel...</p>` },
+            cancellation: { content: `<h2>Cancellation Policy</h2><p>Please review our cancellation policy carefully...</p>` },
+            faq: { content: `<h2>Frequently Asked Questions</h2><p>Is breakfast included? Yes...</p>` },
+            careers: { content: `<h2>Careers at The Lavish Hotel</h2><p>We're always looking for talented individuals...</p>` }
         };
-
-        // Open Popup Function
-        function openPopup(type) {
-            const data = popupData[type];
-            if (data) {
-                popupContent.innerHTML = data.content;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        }
-
-        // Close Popup Function
-        function closePopup() {
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // Add click event to all popup links
-        document.querySelectorAll('.popup-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const popupType = link.getAttribute('data-popup');
-                if (popupType) {
-                    openPopup(popupType);
-                }
-            });
-        });
-
-        // Close modal when clicking on close button or outside
+        function openPopup(type) { popupContent.innerHTML = popupData[type]?.content || "<p>Content coming soon...</p>"; modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closePopup() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+        document.querySelectorAll('.popup-link').forEach(link => link.addEventListener('click', (e) => { e.preventDefault(); openPopup(link.getAttribute('data-popup')); }));
         modalClose.addEventListener('click', closePopup);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closePopup();
-            }
-        });
-
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                closePopup();
-            }
-        });
+        modal.addEventListener('click', (e) => { if (e.target === modal) closePopup(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closePopup(); });
     </script>
 </body>
 
